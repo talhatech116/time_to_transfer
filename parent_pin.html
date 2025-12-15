@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Pin</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: #faf4ed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 600;
+      color: #d88936;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      width: 420px;
+      background: white;
+      padding: 30px;
+      margin: 0 auto;
+      border-radius: 10px;
+      border: 1px solid #eee;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1d1b4c;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      font-size: 14px;
+      color: #8c8c8c;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 10px 0 8px 5px;
+      color: #333;
+    }
+
+    .pin-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .pin-input {
+      width: 55px;
+      height: 55px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 20px;
+      text-align: center;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: linear-gradient(to right, #e7a65f, #d8714a);
+      color: white;
+      font-weight: 600;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="card">
+      <h2>Create Your 4 Digit Pin</h2>
+      <p class="subtitle">Create your 4 digit pin code to continue as a parent</p>
+
+      <label>Enter Code</label>
+      <div class="pin-row">
+        <input maxlength="1" class="pin-input" />
+        <input maxlength="1" class="pin-input" />
+        <input maxlength="1" class="pin-input" />
+        <input maxlength="1" class="pin-input" />
+      </div>
+
+      <label>Confirm Code</label>
+      <div class="pin-row">
+        <input maxlength="1" class="pin-input" />
+        <input maxlength="1" class="pin-input" />
+        <input maxlength="1" class="pin-input" />
+        <input maxlength="1" class="pin-input" />
+      </div>
+
+      <a href="parent_dashboard.html"><button>Create</button></a>
+    </div>
+  </div>
+</body>
+</html>

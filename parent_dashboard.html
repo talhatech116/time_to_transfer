@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time To Transfer - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #1a1a1a;
+            padding: 10px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            height: 98vh;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 180px;
+            background-color: #1e3a8a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-item.active {
+            background-color: #f97316;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+
+        .logout {
+            margin-top: auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: #f97316;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .logout:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logout svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px 30px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #f97316;
+            font-size: 22px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #fecaca;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .user-email {
+            font-size: 11px;
+            color: #666;
+        }
+
+        /* Welcome Section */
+        .welcome {
+            margin-bottom: 20px;
+        }
+
+        .welcome h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .welcome p {
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon.blue {
+            background-color: #dbeafe;
+        }
+
+        .stat-icon.green {
+            background-color: #d1fae5;
+        }
+
+        .stat-icon.orange {
+            background-color: #fed7aa;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .stat-change {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #10b981;
+        }
+
+        .stat-change.negative {
+            color: #ef4444;
+        }
+
+        /* Progress Report */
+        .progress-report {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .chart-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .chart-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #d1fae5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chart-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .legend {
+            display: flex;
+            gap: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .legend-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.green {
+            background-color: #10b981;
+        }
+
+        .legend-dot.orange {
+            background-color: #f97316;
+        }
+
+        .dropdown {
+            padding: 5px 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Chart */
+        .chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 250px;
+            padding: 35px 0 15px 0;
+            border-bottom: 2px solid #e5e7eb;
+            position: relative;
+        }
+
+        .chart-bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            height: 100%;
+            justify-content: flex-end;
+        }
+
+        .bars {
+            display: flex;
+            gap: 5px;
+            align-items: flex-end;
+            margin-bottom: 8px;
+        }
+
+        .bar {
+            width: 16px;
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+        }
+
+        .bar.green {
+            background-color: #10b981;
+        }
+
+        .bar.orange {
+            background-color: #f97316;
+        }
+
+        .bar-label {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .chart-label {
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        .day {
+            font-size: 11px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .date {
+            font-size: 10px;
+            color: #999;
+        }
+
+        /* Recent Tests */
+        .recent-tests {
+            margin-top: 25px;
+        }
+
+        .test-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+
+        .test-icon {
+            width: 45px;
+            height: 45px;
+            background-color: #fed7aa;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .test-info {
+            flex: 1;
+        }
+
+        .test-info h4 {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .test-info p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .test-progress {
+            flex: 1;
+            max-width: 350px;
+            margin: 0 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .progress-label {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .progress-value {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 7px;
+            background-color: #fee2e2;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #f97316;
+            border-radius: 10px;
+        }
+
+        .nav-item, .logout {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.nav-item > div, .logout > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+     <div class="sidebar">
+    <div class="logo">Logo</div>
+
+    <a href="parent_dashboard.html" class="nav-item active">
+        <div>
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+            </svg>
+            Home
+        </div>
+    </a>
+
+    <a href="parent_profile.html" class="nav-item">
+        <div>
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+            Profile
+        </div>
+    </a>
+
+    <a href="login.html" class="logout">
+        <div>
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+            </svg>
+            Logout
+        </div>
+    </a>
+</div>
+
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Time To Transfer</h1>
+                <div class="user-info">
+                    <div class="notification">
+                        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">A</div>
+                        <div class="user-details">
+                            <div class="user-name">Albert</div>
+                            <div class="user-email">albert@gmail.com</div>
+                        </div>
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="welcome">
+                <h2>Welcome Here,</h2>
+                <p>Albert</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon blue">
+                            <svg width="18" height="18" fill="#3b82f6" viewBox="0 0 20 20">
+                                <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+                            </svg>
+                        </div>
+                        <span class="stat-label">Overall Score</span>
+                    </div>
+                    <div class="stat-value">85.2%</div>
+                    <div class="stat-change positive">↑ 5.1% vs last week</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon green">
+                            <svg width="18" height="18" fill="#10b981" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="stat-label">Time Spent</span>
+                    </div>
+                    <div class="stat-value">8h 15m</div>
+                    <div class="stat-change negative">↓ 30m less than last week</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon orange">
+                            <svg width="18" height="18" fill="#f97316" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="stat-label">Challenges Completed</span>
+                    </div>
+                    <div class="stat-value">14 / 20</div>
+                    <div class="stat-change positive">↑ 2 more than last week</div>
+                </div>
+            </div>
+
+            <!-- Progress Report -->
+            <div class="progress-report">
+                <h3 class="section-title">Progress Report</h3>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <div class="chart-icon">
+                                <svg width="16" height="16" fill="#10b981" viewBox="0 0 20 20">
+                                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <span style="font-weight: 600; color: #333; font-size: 14px;">All Subject Tests</span>
+                        </div>
+                        <div class="chart-controls">
+                            <div class="legend">
+                                <div class="legend-item">
+                                    <div class="legend-dot green"></div>
+                                    <span>English</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-dot orange"></div>
+                                    <span>Math</span>
+                                </div>
+                            </div>
+                            <select class="dropdown">
+                                <option>Weekly</option>
+                                <option>Monthly</option>
+                                <option>Yearly</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="chart">
+                        <div class="chart-bar-group">
+                            <div class="bars">
+                                <div class="bar green" style="height: 100px;"></div>
+                                <div class="bar orange" style="height: 65px;"></div>
+                            </div>
+                            <div class="chart-label">
+                                <div class="day">Mon</div>
+                                <div class="date">12-05-25</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-bar-group">
+                            <div class="bars">
+                                <div class="bar green" style="height: 150px;"></div>
+                                <div class="bar orange" style="height: 100px;"></div>
+                            </div>
+                            <div class="chart-label">
+                                <div class="day">Tue</div>
+                                <div class="date">13-05-25</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-bar-group">
+                            <div class="bars">
+                                <div class="bar green" style="height: 110px;"></div>
+                                <div class="bar orange" style="height: 200px;">
+                                    <div class="bar-label">80%</div>
+                                </div>
+                            </div>
+                            <div class="chart-label">
+                                <div class="day">Wed</div>
+                                <div class="date">14-05-25</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-bar-group">
+                            <div class="bars">
+                                <div class="bar green" style="height: 165px;">
+                                    <div class="bar-label">65%</div>
+                                </div>
+                                <div class="bar orange" style="height: 75px;"></div>
+                            </div>
+                            <div class="chart-label">
+                                <div class="day">Thu</div>
+                                <div class="date">15-05-25</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-bar-group">
+                            <div class="bars">
+                                <div class="bar green" style="height: 110px;"></div>
+                                <div class="bar orange" style="height: 200px;"></div>
+                            </div>
+                            <div class="chart-label">
+                                <div class="day">Fri</div>
+                                <div class="date">16-05-25</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-bar-group">
+                            <div class="bars">
+                                <div class="bar green" style="height: 125px;"></div>
+                                <div class="bar orange" style="height: 100px;"></div>
+                            </div>
+                            <div class="chart-label">
+                                <div class="day">Sat</div>
+                                <div class="date">17-05-25</div>
+                            </div>
+                        </div>
+
+                        <div class="chart-bar-group">
+                            <div class="bars">
+                                <div class="bar green" style="height: 130px;"></div>
+                                <div class="bar orange" style="height: 210px;"></div>
+                            </div>
+                            <div class="chart-label">
+                                <div class="day">Sun</div>
+                                <div class="date">18-05-25</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Tests -->
+            <div class="recent-tests">
+                <h3 class="section-title">Recent Test</h3>
+                <div class="test-item">
+                    <div class="test-icon">
+                        <svg width="22" height="22" fill="#f97316" viewBox="0 0 20 20">
+                            <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+                        </svg>
+                    </div>
+                    <div class="test-info">
+                        <h4>Math Practice Test</h4>
+                        <p>Mini Quiz Test (160 Questions)</p>
+                    </div>
+                    <div class="test-progress">
+                        <div class="progress-header">
+                            <span class="progress-label">Wrong Answers</span>
+                            <span class="progress-value">100/160</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" style="width: 62.5%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-item">
+                    <div class="test-icon">
+                        <svg width="22" height="22" fill="#f97316" viewBox="0 0 20 20">
+                            <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+                        </svg>
+                    </div>
+                    <div class="test-info">
+                        <h4>Math Practice Test</h4>
+                        <p>Mini Quiz Test (160 Questions)</p>
+                    </div>
+                    <div class="test-progress">
+                        <div class="progress-header">
+                            <span class="progress-label">Wrong Answers</span>
+                            <span class="progress-value">100/160</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" style="width: 62.5%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

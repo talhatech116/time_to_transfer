@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tips & Tricks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #1a1a1a;
+            padding: 10px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            height: 98vh;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Sidebar - EXACTLY matching reference */
+        .sidebar {
+            width: 200px; /* Changed from 180px to match reference */
+            background-color: #1e3a8a;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0; /* Changed from 15px 0 to match reference */
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav-item.active {
+            background-color: #f97316;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item.active:hover {
+            background-color: #f97316; /* Added to match reference */
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+
+        .logout {
+            margin-top: auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: white; /* Changed from #f97316 to white to match reference */
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .logout:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logout svg {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+        }
+
+        .nav-item > div, .logout > div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px; /* Changed from 20px 30px to match reference */
+            border-bottom: 1px solid #f0f0f0;
+            margin-bottom: 20px; /* Added to match reference */
+        }
+
+        .header h1 {
+            color: #f97316;
+            font-size: 22px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification {
+            width: 40px; /* Changed from 35px to match reference */
+            height: 40px; /* Changed from 35px to match reference */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 35px; /* Changed from 32px to match reference */
+            height: 35px; /* Changed from 32px to match reference */
+            border-radius: 50%;
+            background-color: #fecaca;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px; /* Changed from 13px to match reference */
+        }
+
+        .user-email {
+            font-size: 11px;
+            color: #666;
+        }
+
+        /* Page Content */
+        .page-content {
+            flex: 1;
+            padding: 20px 25px; /* Changed from 20px 30px to match reference */
+            overflow-y: auto;
+        }
+
+        .page-title {
+            margin-bottom: 5px;
+        }
+
+        .page-title h2 {
+            font-size: 24px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .page-subtitle {
+            color: #2563eb;
+            font-size: 14px;
+            margin-bottom: 30px;
+            text-decoration: underline;
+        }
+
+        /* Help Cards Grid */
+        .help-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .help-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .help-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .help-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-icon.orange {
+            background-color: #fed7aa;
+        }
+
+        .help-icon.green {
+            background-color: #d1fae5;
+        }
+
+        .help-card-title h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 3px;
+        }
+
+        .help-card-title p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Tab Buttons */
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background-color: #fed7aa;
+            color: #333;
+        }
+
+        .tab-btn:not(.active) {
+            background-color: #f9fafb;
+            color: #666;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background-color: #f3f4f6;
+        }
+
+        /* Tips Section */
+        .tips-section h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .tip-box {
+            background-color: #fef3c7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .tip-box.green {
+            background-color: #d1fae5;
+        }
+
+        .tip-box p {
+            font-size: 11px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .tip-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .tip-number {
+            font-weight: 600;
+        }
+
+        /* Navigation Buttons */
+        .card-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .card-nav-btn {
+            flex: 1;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card-prev-btn {
+            background-color: white;
+            color: #666;
+            border: 2px solid #e5e7eb;
+        }
+
+        .card-prev-btn:hover {
+            background-color: #f9fafb;
+        }
+
+        .card-next-btn {
+            background-color: #fed7aa;
+            color: #333;
+        }
+
+        .card-next-btn:hover {
+            background-color: #fdba74;
+        }
+
+        @media (max-width: 968px) {
+            .help-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar - EXACTLY matching reference -->
+        <div class="sidebar">
+            <div class="logo">Logo</div>
+
+            <a href="child_dashboard.html" class="nav-item">
+                <div>
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                    </svg>
+                    Home
+                </div>
+            </a>
+
+            <a href="tips_and_tricks.html" class="nav-item active">
+                <div>
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                    </svg>
+                    Tips & Tricks
+                </div>
+            </a>
+
+            <a href="child_profile.html" class="nav-item">
+                <div>
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                    </svg>
+                    Profile
+                </div>
+            </a>
+
+            <a href="login.html" class="logout">
+                <div>
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+                    </svg>
+                    Logout
+                </div>
+            </a>
+        </div>
+
+        <!-- Main Content - ALL YOUR TIPS & TRICKS CONTENT IS PRESERVED -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Time To Transfer</h1>
+                <div class="user-info">
+                    <div class="notification">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">E</div>
+                        <div class="user-details">
+                            <div class="user-name">Emma</div>
+                            <div class="user-email">emma@gmail.com</div>
+                        </div>
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page-content">
+                <!-- Page Title -->
+                <div class="page-title">
+                    <h2>Tips & Tricks</h2>
+                </div>
+
+                <!-- Help Cards Grid - ALL CONTENT PRESERVED -->
+                <div class="help-cards-grid">
+                    <!-- Math Help Card -->
+                    <div class="help-card">
+                        <div class="help-card-header">
+                            <div class="help-icon orange">
+                                <svg width="28" height="28" fill="#f97316" viewBox="0 0 20 20">
+                                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="help-card-title">
+                                <h3>Math Help</h3>
+                                <p>Explore video lessons, practice problems, and strategies to boost your math skills.</p>
+                            </div>
+                        </div>
+
+                        <!-- Tab Buttons -->
+                        <div class="tab-buttons">
+                            <button class="tab-btn active">Tips</button>
+                            <button class="tab-btn">Videos Tutor</button>
+                        </div>
+
+                        <!-- Tips Section -->
+                        <div class="tips-section">
+                            <h4>Multiplication Tips</h4>
+                            
+                            <div class="tip-box">
+                                <p><span class="tip-number">1.</span> For 9 × any number, the digits of the answer always add up to 9!<br>Example: 9 × 7 = 63, and 6 + 3 = 9</p>
+                                <p><span class="tip-number">2.</span> To multiply by 4, double the number twice!<br>Example: 15 × 4 = (15 × 2) × 2 = 30 × 2 = 60</p>
+                            </div>
+
+                            <div class="tip-box">
+                                <p><span class="tip-number">1.</span> For 9 × any number, the digits of the answer always add up to 9!<br>Example: 9 × 7 = 63, and 6 + 3 = 9</p>
+                                <p><span class="tip-number">2.</span> To multiply by 4, double the number twice!<br>Example: 15 × 4 = (15 × 2) × 2 = 30 × 2 = 60</p>
+                            </div>
+                        </div>
+
+                        <!-- Card Navigation -->
+                        <div class="card-navigation">
+                            <button class="card-nav-btn card-prev-btn">Previous</button>
+                            <button class="card-nav-btn card-next-btn">Next</button>
+                        </div>
+                    </div>
+
+                    <!-- English Help Card -->
+                    <div class="help-card">
+                        <div class="help-card-header">
+                            <div class="help-icon green">
+                                <svg width="28" height="28" fill="#10b981" viewBox="0 0 20 20">
+                                    <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+                                </svg>
+                            </div>
+                            <div class="help-card-title">
+                                <h3>English Help</h3>
+                                <p>Explore video lessons, practice problems, and strategies to boost your english skills.</p>
+                            </div>
+                        </div>
+
+                        <!-- Tab Buttons -->
+                        <div class="tab-buttons">
+                            <button class="tab-btn active">Comprehensive Tips</button>
+                            <button class="tab-btn">Vocabulary Tips</button>
+                        </div>
+
+                        <!-- Tips Section -->
+                        <div class="tips-section">
+                            <h4>Multiplication Tips</h4>
+                            
+                            <div class="tip-box green">
+                                <p><span class="tip-number">1.</span> • Preview the title and headings • Look at pictures and captions</p>
+                                <p><span class="tip-number">2.</span> • Think about what you already know the topic</p>
+                                <p><span class="tip-number">3.</span> • Set a purpose for reading</p>
+                            </div>
+
+                            <div class="tip-box green">
+                                <p><span class="tip-number">1.</span> • Preview the title and headings • Look at pictures and captions</p>
+                                <p><span class="tip-number">2.</span> • Think about what you already know the topic</p>
+                                <p><span class="tip-number">3.</span> • Set a purpose for reading</p>
+                            </div>
+                        </div>
+
+                        <!-- Card Navigation -->
+                        <div class="card-navigation">
+                            <button class="card-nav-btn card-prev-btn">Previous</button>
+                            <button class="card-nav-btn card-next-btn">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all tabs in this card
+                const card = this.closest('.help-card');
+                card.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

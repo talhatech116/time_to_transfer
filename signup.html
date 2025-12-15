@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+      background: #faf4ed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .stars-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://i.imgur.com/jcN5NwH.png'); /* replace with real stars */
+      background-repeat: repeat;
+      opacity: 0.2;
+      z-index: -1;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 600;
+      color: #d88936;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      width: 420px;
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      margin: 0 auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 24px;
+      color: #1d1b4c;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: #8c8c8c;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #3b3b3b;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      margin-bottom: 18px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: linear-gradient(to right, #e7a65f, #d8714a);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="stars-bg"></div>
+
+  <div class="container">
+ 
+
+    <div class="card">
+      <h2>Create Account</h2>
+      <p class="subtitle">Fill out the information below to create account</p>
+
+      <label>Name</label>
+      <input type="text" placeholder="Enter Name" />
+
+      <label>Email</label>
+      <input type="email" placeholder="Enter Email" />
+
+      <label>Password</label>
+      <input type="password" placeholder="Enter Password" />
+
+      <label>Child Group Year</label>
+      <input type="text" placeholder="eg P5" />
+
+      <label>Age</label>
+      <input type="number" placeholder="12" />
+
+      <button >Sign up</button>
+      <a href="login.html"><button style="margin-top: 5px;">Login</button></a>
+    </div>
+  </div>
+</body>
+</html>

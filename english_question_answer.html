@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Quiz - Question</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #2d2d2d;
+            padding: 10px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            height: 98vh;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 180px;
+            background-color: #1e40af;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 0 15px;
+            margin-bottom: 25px;
+            color: white;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .nav-item.active {
+            background-color: #10b981;
+        }
+
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        .logout {
+            margin-top: auto;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            color: #f97316;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 13px;
+        }
+
+        .logout:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .logout svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .header h1 {
+            color: #f97316;
+            font-size: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #fecaca;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-email {
+            font-size: 11px;
+            color: #666;
+        }
+
+        /* Quiz Content */
+        .quiz-content {
+            flex: 1;
+            padding: 20px 25px;
+            overflow-y: auto;
+        }
+
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quiz-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #d1fae5;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quiz-info h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .quiz-info p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .save-exit-btn {
+            margin-left: auto;
+            padding: 10px 25px;
+            background-color: #d1fae5;
+            border: none;
+            border-radius: 8px;
+            color: #333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .save-exit-btn:hover {
+            background-color: #a7f3d0;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .progress-count {
+            font-size: 13px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #10b981;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        /* Question Section */
+        .question-section {
+            background-color: #f8f9fa;
+            border-radius: 14px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .question-word {
+            font-size: 32px;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .question-instruction {
+            font-size: 15px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        /* Answer Options */
+        .answer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .answer-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background-color: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .answer-option:hover {
+            border-color: #10b981;
+            background-color: #f0fdf4;
+        }
+
+        .answer-option.selected {
+            border-color: #10b981;
+            background-color: #f0fdf4;
+        }
+
+        .option-letter {
+            width: 36px;
+            height: 36px;
+            background-color: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #666;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .answer-option.selected .option-letter {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .option-text {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Navigation Buttons */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .nav-btn {
+            padding: 12px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .prev-btn {
+            background-color: white;
+            color: #666;
+            border: 2px solid #e5e7eb;
+        }
+
+        .prev-btn:hover {
+            background-color: #f9fafb;
+        }
+
+        .next-btn {
+            background-color: #f97316;
+            color: white;
+        }
+
+        .next-btn:hover {
+            background-color: #ea580c;
+        }
+
+        @media (max-width: 768px) {
+            .answer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .question-word {
+                font-size: 26px;
+            }
+
+            .question-instruction {
+                font-size: 14px;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+            }
+        }
+
+        .nav-item, .logout {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.nav-item > div, .logout > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+       <div class="sidebar">
+    <div class="logo">Logo</div>
+
+    <a href="child_dashboard.html" class="nav-item active">
+        <div>
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+            </svg>
+            Home
+        </div>
+    </a>
+
+    <a href="tips_and_tricks.html" class="nav-item">
+        <div>
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+            </svg>
+            Tips & Tricks
+        </div>
+    </a>
+
+    <a href="child_profile.html" class="nav-item">
+        <div>
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+            Profile
+        </div>
+    </a>
+
+    <a href="login.html" class="logout">
+        <div>
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+            </svg>
+            Logout
+        </div>
+    </a>
+</div>
+
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Time To Transfer</h1>
+                <div class="user-info">
+                    <div class="notification">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">E</div>
+                        <div class="user-details">
+                            <div class="user-name">Emma</div>
+                            <div class="user-email">emma@gmail.com</div>
+                        </div>
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-content">
+                <!-- Quiz Header -->
+                <div class="quiz-header">
+                    <div class="quiz-icon">
+                        <svg width="32" height="32" fill="#10b981" viewBox="0 0 20 20">
+                            <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+                        </svg>
+                    </div>
+                    <div class="quiz-info">
+                        <h2>Comprehensive Test</h2>
+                        <p>Short Passage Test</p>
+                    </div>
+                    <button class="save-exit-btn">Save & Exit</button>
+                </div>
+
+                <!-- Progress Section -->
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-label">Progress</span>
+                        <span class="progress-count">56/145</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 38.6%;"></div>
+                    </div>
+                </div>
+
+                <!-- Question Section -->
+                <div class="question-section">
+                    <div class="question-word">
+                        Ephemeral
+                    </div>
+                    <div class="question-instruction">
+                        Choose the correct meaning or synonym
+                    </div>
+
+                    <div class="answer-grid">
+                        <div class="answer-option" onclick="selectOption(this)">
+                            <div class="option-letter">A</div>
+                            <div class="option-text">Lasting forever; permanent</div>
+                        </div>
+
+                        <div class="answer-option" onclick="selectOption(this)">
+                            <div class="option-letter">B</div>
+                            <div class="option-text">Lasting for a very short time; transient</div>
+                        </div>
+
+                        <div class="answer-option" onclick="selectOption(this)">
+                            <div class="option-letter">C</div>
+                            <div class="option-text">Essential and necessary</div>
+                        </div>
+
+                        <div class="answer-option" onclick="selectOption(this)">
+                            <div class="option-letter">D</div>
+                            <div class="option-text">Beautiful and elegant</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button class="nav-btn prev-btn">Previous</button>
+                    <button class="nav-btn next-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectOption(element) {
+            // Remove selected class from all options
+            const allOptions = document.querySelectorAll('.answer-option');
+            allOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Add selected class to clicked option
+            element.classList.add('selected');
+        }
+    </script>
+</body>
+</html>
